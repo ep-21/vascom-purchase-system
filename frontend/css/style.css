@@ -1,0 +1,66 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#eef0f4;
+}
+
+
+/* HEADER */
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:30px 60px;
+}
+
+.logo img{
+    width:120px;
+    border-radius: 50%;
+}
+
+.login-btn{
+    background:#2f63d8;
+    color:white;
+    border:none;
+    padding:12px 35px;
+    border-radius:25px;
+    font-size:16px;
+    cursor:pointer;
+    margin-top: -50px;
+}
+
+.login-btn:hover{
+    background:#1f4fb7;
+}
+
+
+
+/* HERO SECTION */
+
+.hero{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:60px;
+    margin-top: 50px;
+   
+}
+
+.hero-text h1{
+    font-size:50px;
+    color:#2c3643;
+    line-height:1.2;
+    font-weight:700;
+}
+
+
+.hero-image img{
+    width:420px;
+    border-radius:15px;
+}

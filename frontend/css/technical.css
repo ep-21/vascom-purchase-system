@@ -1,0 +1,140 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Layout */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background: #f4f4f9;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background: #1a3e8c;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.sidebar .logo h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.sidebar .nav-links {
+    list-style: none;
+}
+
+.sidebar .nav-links li {
+    margin-bottom: 20px;
+}
+
+.sidebar .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.sidebar .nav-links a.active,
+.sidebar .nav-links a:hover {
+    background: #0f2a66;
+}
+
+.logout-btn {
+    background: #d9534f;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: #c9302c;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 30px;
+}
+
+.main-content h1 {
+    margin-bottom: 20px;
+}
+
+/* Cards */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.card p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1a3e8c;
+}
+
+/* Table */
+.recent-requests table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.recent-requests th, .recent-requests td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.recent-requests th {
+    background: #e9edf3;
+    font-weight: bold;
+}
+
+.recent-requests td {
+    color: #333;
+}
+
+.recent-requests td.status-pending {
+    color: orange;
+}
+
+.recent-requests td.status-approved {
+    color: green;
+}
+
+.recent-requests td.status-rejected {
+    color: red;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Purchase Request</title>
+<link rel="stylesheet" href="css/createRequest.css">
+</head>
+<body>
+
+<div class="container">
+
+  <h1>Create Purchase Request</h1>
+
+  <form id="requestForm">
+
+    <div class="input-group">
+      <label>Request Title</label>
+      <input type="text" id="title" required>
+    </div>
+
+    <div class="input-group">
+      <label>Department</label>
+      <input type="text" id="department" required>
+    </div>
+
+    <div class="input-group">
+      <label>Vendor</label>
+      <input type="text" id="vendor" required>
+    </div>
+
+    <div class="input-group">
+      <label>Priority</label>
+      <select id="priority" required>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Request Date</label>
+      <input type="date" id="request_date" required>
+    </div>
+
+    <div class="input-group">
+      <label>Description</label>
+      <textarea id="description"></textarea>
+    </div>
+
+    <!-- Items section -->
+    <div id="itemsContainer">
+      <h3>Items</h3>
+      <div class="item-row">
+        <input type="text" placeholder="Item Name" class="item_name" required>
+        <input type="number" placeholder="Quantity" class="quantity" required>
+        <input type="number" placeholder="Unit Price" class="unit_price" required>
+        <button type="button" class="removeItemBtn">Remove</button>
+      </div>
+    </div>
+    <button type="button" id="addItemBtn">Add Item</button>
+
+    <button type="submit">Submit Request</button>
+
+  </form>
+
+</div>
+
+<script src="js/createRequest.js"></script>
+</body>
+</html>

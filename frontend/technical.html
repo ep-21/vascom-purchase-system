@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Dashboard</title>
+    <link rel="stylesheet" href="css/technical.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>Purchase Approval</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Dashboard</a></li>
+            <li><a href="createRequest.html">Create Request</a></li>
+            <li><a href="request-list.html">Request List</a></li>
+        </ul>
+        <button class="logout-btn">Logout</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <h1>Technical Dashboard</h1>
+
+        <!-- Summary Cards -->
+        <div class="cards">
+            <div class="card">
+                <h3>Total Requests</h3>
+                <p id="totalRequests">0</p>
+            </div>
+            <div class="card">
+                <h3>Pending Requests</h3>
+                <p id="pendingRequests">0</p>
+            </div>
+            <div class="card">
+                <h3>Approval Requests</h3>
+                <p id="approvedRequests">0</p>
+            </div>
+            <div class="card">
+                <h3>Rejected Requests</h3>
+                <p id="rejectedRequests">0</p>
+            </div>
+        </div>
+
+        <!-- Recent Requests Table -->
+        <section class="recent-requests">
+            <h2>Recent Purchase Requests</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Created By</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="requestsTable">
+                    <!-- Rows will be injected dynamically -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+
+<script src="js/technical.js"></script>
+</body>
+</html>
