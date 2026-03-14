@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard · Finance Approvals</title>
+    <link rel="stylesheet" href="css/manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>ApproveFlow</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item active" data-view="pending">
+                    <i class="fas fa-clock"></i>
+                    <span>Pending Approvals</span>
+                    <span class="badge" id="pending-count">0</span>
+                </div>
+                <div class="nav-item" data-view="approved">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Approved</span>
+                    <span class="badge" id="approved-count">0</span>
+                </div>
+                <div class="nav-item" data-view="rejected">
+                    <i class="fas fa-times-circle"></i>
+                    <span>Rejected</span>
+                    <span class="badge" id="rejected-count">0</span>
+                </div>
+                <div class="nav-item" data-view="all">
+                    <i class="fas fa-list"></i>
+                    <span>All Requests</span>
+                </div>
+            </nav>
+
+            <div class="team-info">
+                <i class="fas fa-arrow-right"></i>
+                <div>
+                    <p class="team-label">Finance Team →</p>
+                    <p class="team-value">Manager Review</p>
+                </div>
+            </div>
+
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Sarah+Manager&background=1e3a8a&color=fff" alt="Profile">
+                <div>
+                    <p class="user-name" id="user-name">Loading...</p>
+                    <p class="user-role">Finance Manager</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <h1>Manager Dashboard</h1>
+                    <p class="breadcrumb">
+                        <span>Finance Team</span>
+                        <i class="fas fa-chevron-right"></i>
+                        <span class="current">Manager Approval</span>
+                    </p>
+                </div>
+                
+                <div class="header-right">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search requests..." id="search-input">
+                    </div>
+                    
+                    <div class="date-filter" id="date-filter">
+                        <i class="fas fa-calendar"></i>
+                        <span id="current-date">Loading...</span>
+                    </div>
+                    
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notification-count">0</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="stat-details">
+                        <p class="stat-label">Pending Approval</p>
+                        <p class="stat-value" id="stat-pending">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="stat-details">
+                        <p class="stat-label">Approved</p>
+                        <p class="stat-value" id="stat-approved">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon red">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="stat-details">
+                        <p class="stat-label">Rejected</p>
+                        <p class="stat-value" id="stat-rejected">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-details">
+                        <p class="stat-label">Total Value</p>
+                        <p class="stat-value" id="stat-total">$0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Department Filters -->
+            <div class="filter-section">
+                <div class="filter-tabs">
+                    <span class="filter-label">Filter by department:</span>
+                    <button class="dept-pill active" data-dept="all">All</button>
+                    <button class="dept-pill" data-dept="IT">IT</button>
+                    <button class="dept-pill" data-dept="Engineering">Engineering</button>
+                    <button class="dept-pill" data-dept="Marketing">Marketing</button>
+                    <button class="dept-pill" data-dept="Sales">Sales</button>
+                    <button class="dept-pill" data-dept="HR">HR</button>
+                </div>
+                
+                <div class="filter-actions">
+                    <button class="action-btn" id="export-btn">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-container" id="loading-container">
+                <div class="spinner"></div>
+                <p>Loading requests...</p>
+            </div>
+
+            <!-- Error State -->
+            <div class="error-container" id="error-container" style="display: none;">
+                <i class="fas fa-exclamation-circle"></i>
+                <p id="error-message">Failed to load requests</p>
+                <button class="retry-btn" onclick="fetchRequests()">Retry</button>
+            </div>
+
+            <!-- Requests Table -->
+            <div class="table-container" id="table-container">
+                <table class="requests-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select-all"></th>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Department</th>
+                            <th>Priority</th>
+                            <th>Item Name</th>
+                            <th>Qty</th>
+                            <th>Total Price</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requests-tbody">
+                        <!-- Data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-container" id="empty-container" style="display: none;">
+                <i class="fas fa-folder-open"></i>
+                <p>No requests found</p>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <div class="pagination-info" id="pagination-info">
+                    Showing 0-0 of 0 requests
+                </div>
+                <div class="pagination-controls" id="pagination-controls">
+                    <!-- Pagination buttons will be populated here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Approve Modal -->
+    <div class="modal" id="approve-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-check-circle" style="color: #10b981;"></i> Approve Request</h2>
+                <button class="close-modal" onclick="closeApproveModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to approve this request?</p>
+                <div class="request-summary" id="approve-summary">
+                    <!-- Will be filled dynamically -->
+                </div>
+                <div class="form-group">
+                    <label for="approve-notes">Approval Notes (Optional)</label>
+                    <textarea id="approve-notes" placeholder="Add any comments..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn cancel" onclick="closeApproveModal()">Cancel</button>
+                <button class="modal-btn approve" onclick="confirmApprove()">Confirm Approval</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reject Modal -->
+    <div class="modal" id="reject-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-times-circle" style="color: #ef4444;"></i> Reject Request</h2>
+                <button class="close-modal" onclick="closeRejectModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Please provide a reason for rejection:</p>
+                <div class="request-summary" id="reject-summary">
+                    <!-- Will be filled dynamically -->
+                </div>
+                <div class="form-group">
+                    <label for="reject-reason">Rejection Reason <span class="required">*</span></label>
+                    <textarea id="reject-reason" placeholder="Explain why this request is being rejected..." required></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn cancel" onclick="closeRejectModal()">Cancel</button>
+                <button class="modal-btn reject" onclick="confirmReject()">Confirm Rejection</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="toast" id="success-toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Action completed successfully</span>
+    </div>
+
+    <script src="js/manager.js"></script>
+</body>
+</html>
