@@ -1,12 +1,12 @@
-// script.js
-const API_BASE = "http://localhost:5000/api"; // Correct API base
+// finance.js
+const API_BASE = "http://localhost:5000/api"; // your backend
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchRequests();
     setCurrentDate();
 });
 
-// Show today's date in header
+// Show today's date
 function setCurrentDate() {
     const dateElement = document.getElementById("current-date");
     const today = new Date();
@@ -40,6 +40,8 @@ async function fetchRequests() {
 
         if (requests.length === 0) {
             empty.style.display = "flex";
+            tbody.innerHTML = "";
+            updateStats([]);
             return;
         }
 
@@ -55,6 +57,7 @@ async function fetchRequests() {
                 <td><span class="priority ${req.priority}">${req.priority}</span></td>
                 <td>${formatDate(req.request_date)}</td>
                 <td><span class="status pending">${req.status}</span></td>
+                <td colspan="4">Items will be shown on details</td>
                 <td>
                     <button class="forward-btn" onclick="forwardRequest(${req.id})">
                         <i class="fas fa-share"></i> Forward
@@ -64,7 +67,14 @@ async function fetchRequests() {
             tbody.appendChild(row);
         });
 
+        // Update stats cards
         updateStats(requests);
+
+        // Setup priority filter
+        setupPriorityFilter();
+
+        // Setup search by ID
+        setupSearchFilter();
 
     } catch (err) {
         console.error(err);
@@ -74,38 +84,8 @@ async function fetchRequests() {
             "Failed to load requests from server";
     }
 }
-// Priority filter buttons
-const priorityPills = document.querySelectorAll(".priority-pill");
 
-priorityPills.forEach(pill => {
-    pill.addEventListener("click", () => {
-        // Remove active class from all pills
-        priorityPills.forEach(p => p.classList.remove("active"));
-        // Add active to the clicked pill
-        pill.classList.add("active");
-
-        // Get the selected priority
-        const priority = pill.getAttribute("data-priority");
-        filterByPriority(priority);
-    });
-});
-
-// Function to filter table rows based on priority
-function filterByPriority(priority) {
-    const tbody = document.getElementById("requests-tbody");
-    const rows = tbody.querySelectorAll("tr");
-
-    rows.forEach(row => {
-        const rowPriority = row.querySelector(".priority").textContent.toLowerCase();
-        if (priority === "all" || rowPriority === priority) {
-            row.style.display = ""; // show row
-        } else {
-            row.style.display = "none"; // hide row
-        }
-    });
-}
-
-// Format date for table
+// Format date
 function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString();
@@ -114,8 +94,12 @@ function formatDate(dateString) {
 // Update stats cards
 function updateStats(requests) {
     const total = requests.length;
+    const forwarded = requests.filter(r => r.status === "sent_to_manager").length;
+    const pending = requests.filter(r => r.status === "pending").length;
+
     document.getElementById("stat-from-technical").textContent = total;
-    document.getElementById("stat-pending").textContent = total;
+    document.getElementById("stat-pending").textContent = pending;
+    document.getElementById("stat-forwarded").textContent = forwarded;
     document.getElementById("incoming-count").textContent = total;
 }
 
@@ -146,4 +130,61 @@ async function forwardRequest(id) {
         console.error(err);
         alert("Failed to forward request");
     }
+}
+
+//////////////////////////
+// Priority Filter Setup
+//////////////////////////
+function setupPriorityFilter() {
+    const priorityPills = document.querySelectorAll(".priority-pill");
+
+    priorityPills.forEach(pill => {
+        pill.addEventListener("click", () => {
+            priorityPills.forEach(p => p.classList.remove("active"));
+            pill.classList.add("active");
+
+            const priority = pill.getAttribute("data-priority");
+            filterByPriority(priority);
+        });
+    });
+}
+
+function filterByPriority(priority) {
+    const tbody = document.getElementById("requests-tbody");
+    const rows = tbody.querySelectorAll("tr");
+
+    rows.forEach(row => {
+        const rowPriority = row.querySelector(".priority").textContent.toLowerCase();
+        if (priority === "all" || rowPriority === priority) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+}
+
+//////////////////////////
+// Search Filter Setup
+//////////////////////////
+function setupSearchFilter() {
+    const searchInput = document.getElementById("search-input");
+
+    searchInput.addEventListener("input", () => {
+        const query = searchInput.value.trim();
+        filterById(query);
+    });
+}
+
+function filterById(idQuery) {
+    const tbody = document.getElementById("requests-tbody");
+    const rows = tbody.querySelectorAll("tr");
+
+    rows.forEach(row => {
+        const rowId = row.querySelector("td:nth-child(2)").textContent.replace("#", "");
+        if (rowId.includes(idQuery)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
 }
