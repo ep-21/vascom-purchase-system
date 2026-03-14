@@ -74,6 +74,36 @@ async function fetchRequests() {
             "Failed to load requests from server";
     }
 }
+// Priority filter buttons
+const priorityPills = document.querySelectorAll(".priority-pill");
+
+priorityPills.forEach(pill => {
+    pill.addEventListener("click", () => {
+        // Remove active class from all pills
+        priorityPills.forEach(p => p.classList.remove("active"));
+        // Add active to the clicked pill
+        pill.classList.add("active");
+
+        // Get the selected priority
+        const priority = pill.getAttribute("data-priority");
+        filterByPriority(priority);
+    });
+});
+
+// Function to filter table rows based on priority
+function filterByPriority(priority) {
+    const tbody = document.getElementById("requests-tbody");
+    const rows = tbody.querySelectorAll("tr");
+
+    rows.forEach(row => {
+        const rowPriority = row.querySelector(".priority").textContent.toLowerCase();
+        if (priority === "all" || rowPriority === priority) {
+            row.style.display = ""; // show row
+        } else {
+            row.style.display = "none"; // hide row
+        }
+    });
+}
 
 // Format date for table
 function formatDate(dateString) {
