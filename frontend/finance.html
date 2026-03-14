@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Team Dashboard</title>
+    <link rel="stylesheet" href="css/finance.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-landmark"></i>
+                <span>FinFlow</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item active" data-view="incoming">
+                    <i class="fas fa-inbox"></i>
+                    <span>Incoming Requests</span>
+                    <span class="badge" id="incoming-count">0</span>
+                </div>
+                <div class="nav-item" data-view="forwarded">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Forwarded to Manager</span>
+                    <span class="badge" id="forwarded-count">0</span>
+                </div>
+                <div class="nav-item" data-view="pending">
+                    <i class="fas fa-clock"></i>
+                    <span>Pending Review</span>
+                    <span class="badge" id="pending-count">0</span>
+                </div>
+                <div class="nav-item" data-view="archive">
+                    <i class="fas fa-archive"></i>
+                    <span>Archive</span>
+                </div>
+            </nav>
+
+            <div class="team-info">
+                <i class="fas fa-users"></i>
+                <div>
+                    <p class="team-label">Technical Team →</p>
+                    <p class="team-value">Finance Review</p>
+                </div>
+            </div>
+
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Finance+User&background=1e3a8a&color=fff" alt="Profile">
+                <div>
+                    <p class="user-name" id="user-name">Loading...</p>
+                    <p class="user-role">Finance Officer</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <h1>Finance Team</h1>
+                    <p class="breadcrumb">
+                        <span>Technical Team</span>
+                        <i class="fas fa-chevron-right"></i>
+                        <span class="current">Finance Review</span>
+                    </p>
+                </div>
+                
+                <div class="header-right">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search requests..." id="search-input">
+                    </div>
+                    
+                    <div class="date-filter" id="date-filter">
+                        <i class="fas fa-calendar"></i>
+                        <span id="current-date">Loading...</span>
+                    </div>
+                    
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notification-count">0</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <div class="stat-details">
+                        <p class="stat-label">From Technical</p>
+                        <p class="stat-value" id="stat-from-technical">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon yellow">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="stat-details">
+                        <p class="stat-label">Pending Review</p>
+                        <p class="stat-value" id="stat-pending">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="stat-details">
+                        <p class="stat-label">Forwarded</p>
+                        <p class="stat-value" id="stat-forwarded">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-details">
+                        <p class="stat-label">Awaiting Manager</p>
+                        <p class="stat-value" id="stat-awaiting">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Priority Filters -->
+            <div class="priority-filters">
+                <span class="filter-label">Filter by priority:</span>
+                <button class="priority-pill active" data-priority="all">All</button>
+                <button class="priority-pill high" data-priority="high">High</button>
+                <button class="priority-pill medium" data-priority="medium">Medium</button>
+                <button class="priority-pill low" data-priority="low">Low</button>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-container" id="loading-container">
+                <div class="spinner"></div>
+                <p>Loading requests...</p>
+            </div>
+
+            <!-- Error State -->
+            <div class="error-container" id="error-container" style="display: none;">
+                <i class="fas fa-exclamation-circle"></i>
+                <p id="error-message">Failed to load requests</p>
+                <button class="retry-btn" onclick="fetchRequests()">Retry</button>
+            </div>
+
+            <!-- Requests Table -->
+            <div class="table-container" id="table-container">
+                <table class="requests-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select-all"></th>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Priority</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requests-tbody">
+                        <!-- Data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-container" id="empty-container" style="display: none;">
+                <i class="fas fa-folder-open"></i>
+                <p>No requests found</p>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <div class="pagination-info" id="pagination-info">
+                    Showing 0-0 of 0 requests
+                </div>
+                <div class="pagination-controls" id="pagination-controls">
+                    <!-- Pagination buttons will be populated here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/finance.js"></script>
+</body>
+</html>
