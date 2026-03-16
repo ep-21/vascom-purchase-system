@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Audit Page · Purchase Requests</title>
+    <link rel="stylesheet" href="css/audit.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="audit-container">
+        <!-- Header Section -->
+        <header class="audit-header">
+            <div class="header-left">
+                <h1>
+                    <i class="fas fa-clipboard-list"></i>
+                    Manager Audit Page
+                </h1>
+                <p class="header-subtitle">Review and monitor all purchase requests</p>
+            </div>
+            <div class="header-right">
+                <div class="date-display">
+                    <i class="far fa-calendar-alt"></i>
+                    <span id="current-date"></span>
+                </div>
+                <button class="export-btn" id="exportBtn">
+                    <i class="fas fa-download"></i>
+                    Export to CSV
+                </button>
+            </div>
+        </header>
+
+        <!-- Filters Section -->
+        <div class="filters-section">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search by title, requester, or vendor..."
+                    autocomplete="off"
+                >
+                <button class="clear-search" id="clearSearch" style="display: none;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="filter-info">
+                <span class="result-count" id="resultCount">Loading...</span>
+                <span class="limit-badge">Latest 50 requests</span>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading-container" id="loadingContainer">
+            <div class="spinner"></div>
+            <p>Loading audit data...</p>
+        </div>
+
+        <!-- Error State -->
+        <div class="error-container" id="errorContainer" style="display: none;">
+            <i class="fas fa-exclamation-circle"></i>
+            <p id="errorMessage">Failed to load audit data</p>
+            <button class="retry-btn" onclick="loadAuditData()">
+                <i class="fas fa-redo-alt"></i> Retry
+            </button>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-container" id="emptyContainer" style="display: none;">
+            <i class="fas fa-folder-open"></i>
+            <p>No audit records found</p>
+            <p class="empty-subtitle">Try adjusting your search criteria</p>
+        </div>
+
+        <!-- Table Section -->
+        <div class="table-wrapper" id="tableWrapper">
+            <table class="audit-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Requester</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th>Vendor</th>
+                        <th>Description</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+                <tbody id="auditTableBody">
+                    <!-- Data will be populated here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Table Footer -->
+        <div class="table-footer" id="tableFooter" style="display: none;">
+            <div class="footer-info">
+                <span id="showingCount"></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/audit.js"></script>
+</body>
+</html>

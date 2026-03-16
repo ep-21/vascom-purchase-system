@@ -5,7 +5,9 @@ const {
 createRequest,
 getRequests,
 getRequestById,
-getFinanceRequests
+getFinanceRequests,
+ getTechnicalDashboard ,
+ deleteRequest
 } = require("../controllers/requestController");
 
 const {verifyToken,checkRole} = require("../middleware/authMiddleware");
@@ -27,6 +29,16 @@ router.get("/finance/requests",
   verifyToken,
   checkRole("finance"),
   getFinanceRequests
+);
+router.get("/technical/dashboard",
+    verifyToken,
+    checkRole("technical"),
+    getTechnicalDashboard
+);
+router.delete("/requests/:id",
+verifyToken,
+checkRole("technical"),
+deleteRequest
 );
 
 module.exports = router;

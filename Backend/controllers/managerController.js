@@ -62,3 +62,27 @@ exports.rejectRequest = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+// ----------------------------
+// Get Audit Data (Approved + Rejected requests)
+// ----------------------------
+exports.getAuditData = async (req, res) => {
+    try {
+        const [rows] = await db.query(
+            `SELECT r.id, r.title, r.status, r.created_at, r.vendor, r.description,
+                    u.name AS requester,
+                    IFNULL(SUM(ri.total),0) AS amount
+             FROM requests r
+             LEFT JOIN request_items ri ON r.id = ri.request_id
+             JOIN users u ON r.requester_id = u.id
+             WHERE r.status IN ('approved', 'rejected')
+             GROUP BY r.id
+             ORDER BY r.created_at DESC
+             LIMIT 50`
+        );
+
+        res.status(200).json(rows);
+    } catch (err) {
+        console.error("Audit Data Error:", err);
+        res.status(500).json({ message: "Server error" });
+    }
+};
