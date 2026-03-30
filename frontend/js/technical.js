@@ -4,7 +4,7 @@ async function loadDashboard() {
 
         const token = localStorage.getItem("token");
 
-        const res = await fetch("http://localhost:5000/api/technical/dashboard", {
+        const res = await fetch("https://purchase-system.onrender.com/api/technical/dashboard", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -67,7 +67,7 @@ async function deleteRequest(id) {
 
     if(!confirm("Delete this request?")) return;
 
-    await fetch(`http://localhost:5000/api/requests/${id}`,{
+    await fetch(`https://purchase-system.onrender.com/api/requests/${id}`,{
         method:"DELETE",
         headers:{
             "Authorization":"Bearer " + token

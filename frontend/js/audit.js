@@ -18,7 +18,7 @@ async function loadAuditData() {
     tableWrapper.style.display = "none";
 
     try {
-        const res = await fetch("http://localhost:5000/api/manager/audit", {
+        const res = await fetch("https://purchase-system.onrender.com/api/manager/audit", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

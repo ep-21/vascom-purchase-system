@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5000/api/manager";
+const API_BASE = "https://purchase-system.onrender.com/api/manager";
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchRequests();
@@ -30,7 +30,7 @@ async function fetchRequests() {
         const requests = await res.json();
 
         for (let req of requests) {
-            const itemsRes = await fetch(`http://localhost:5000/api/requests/${req.id}`, { headers: { "Authorization": `Bearer ${token}` } });
+            const itemsRes = await fetch(`https://purchase-system.onrender.com/api/requests/${req.id}`, { headers: { "Authorization": `Bearer ${token}` } });
             const data = await itemsRes.json();
             req.items = data.items || [];
         }

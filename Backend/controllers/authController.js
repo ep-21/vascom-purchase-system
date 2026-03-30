@@ -37,8 +37,13 @@ role:user.role,
 name:user.name
 });
 
-}catch(err){
-res.status(500).json(err);
+}
+// catch(err){
+// res.status(500).json(err);
+// }
+catch(err){
+  console.error("LOGIN ERROR:", err);   // 🔥 VERY IMPORTANT
+  res.status(500).json({ message: err.message });
 }
 
 };

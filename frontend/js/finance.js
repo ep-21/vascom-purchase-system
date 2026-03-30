@@ -1,5 +1,5 @@
 // finance.js
-const API_BASE = "http://localhost:5000/api"; // your backend
+const API_BASE = "https://purchase-system.onrender.com/api"; // your backend
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchRequests();
@@ -57,7 +57,6 @@ async function fetchRequests() {
                 <td><span class="priority ${req.priority}">${req.priority}</span></td>
                 <td>${formatDate(req.request_date)}</td>
                 <td><span class="status pending">${req.status}</span></td>
-                <td colspan="4">Items will be shown on details</td>
                 <td>
                     <button class="forward-btn" onclick="forwardRequest(${req.id})">
                         <i class="fas fa-share"></i> Forward
@@ -132,9 +131,8 @@ async function forwardRequest(id) {
     }
 }
 
-//////////////////////////
+
 // Priority Filter Setup
-//////////////////////////
 function setupPriorityFilter() {
     const priorityPills = document.querySelectorAll(".priority-pill");
 
@@ -163,9 +161,8 @@ function filterByPriority(priority) {
     });
 }
 
-//////////////////////////
+
 // Search Filter Setup
-//////////////////////////
 function setupSearchFilter() {
     const searchInput = document.getElementById("search-input");
 
