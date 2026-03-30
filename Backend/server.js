@@ -10,7 +10,7 @@ const managerRoutes = require("./routes/managerRoutes");
 const app = express();
 
 app.use(cors({
-    origin: "http://127.0.0.1:5501",
+    origin: "https://vascom-purchase-system.vercel.app",
     credentials: true
 }));
 app.use(express.json());
